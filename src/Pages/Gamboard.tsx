@@ -35,17 +35,18 @@ export const Gameboard = () => {
   const [currentState, setCurrentState] = useState<UsState>(
     states[getRandomIndex()]
   );
-  const question = currentState?.state;
+  const [answers, setAnswers] = useState<string[]>(
+    currentState ? getUniqueStates({ currentState, states }) : []
+  );
+  const [answerIndex, setAnswerIndex] = useState(0);
 
   const getNewState = () => {
     const index = getRandomIndex();
     setCurrentState(states[index]);
+    setAnswers(currentState ? getUniqueStates({ currentState, states }) : []);
+    setAnswerIndex(Math.floor(Math.random() * answers.length));
   };
 
-  const answers: string[] = currentState
-    ? getUniqueStates({ currentState, states })
-    : [];
-  const answerIndex = Math.floor(Math.random() * answers.length);
   const getAllStates = async () => {
     const allStates = await fetchStates();
     setStates(allStates);
@@ -68,7 +69,7 @@ export const Gameboard = () => {
       <Score />
       {currentState ? (
         <Container>
-          <h1>{question}</h1>
+          <h1>{currentState.state}</h1>
           <AnswerContainer>
             {answers.map((item, index) => {
               return (
