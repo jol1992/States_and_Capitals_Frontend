@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { CapitalsContext, UsState } from "../CapitalsProvider";
 import { fetchStates, getUniqueStates } from "../utils";
 import { GameButton } from "../GameButton";
+import { Score } from "../Score";
 
 const Container = styled.div`
   width: 100%;
@@ -64,6 +65,7 @@ export const Gameboard = () => {
 
   return (
     <>
+      <Score />
       {currentState ? (
         <Container>
           <h1>{question}</h1>
