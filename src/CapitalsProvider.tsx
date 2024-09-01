@@ -16,12 +16,15 @@ export interface UsState {
 
 interface CapitalsProps {
   states: UsState[];
+  score: number;
   setStates: React.Dispatch<React.SetStateAction<UsState[]>>;
+  setScore: React.Dispatch<React.SetStateAction<number>>;
 }
 export const CapitalsContext = createContext({} as CapitalsProps);
 
 export const CapitalsProvider: FC<PropsWithChildren> = ({ children }) => {
   const [states, setStates] = useState<UsState[]>([]);
+  const [score, setScore] = useState<number>(0);
 
   const getAllStates = async () => {
     const data = await fetchStates();
@@ -32,7 +35,7 @@ export const CapitalsProvider: FC<PropsWithChildren> = ({ children }) => {
   }, []);
 
   return (
-    <CapitalsContext.Provider value={{ setStates, states }}>
+    <CapitalsContext.Provider value={{ setStates, states, score, setScore }}>
       {children}
     </CapitalsContext.Provider>
   );
