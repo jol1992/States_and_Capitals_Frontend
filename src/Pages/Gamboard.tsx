@@ -32,6 +32,8 @@ export const Gameboard = () => {
     return Math.floor(Math.random() * states.length);
   };
 
+  const [isLoaded, setIsLoaded] = useState(states.length);
+
   const [currentState, setCurrentState] = useState<UsState>(
     states[getRandomIndex()]
   );
@@ -40,10 +42,11 @@ export const Gameboard = () => {
   );
   const [answerIndex, setAnswerIndex] = useState(0);
 
-  const getNewState = () => {
+  const getNewState = async () => {
     const index = getRandomIndex();
-    setCurrentState(states[index]);
-    setAnswers(currentState ? getUniqueStates({ currentState, states }) : []);
+    const newState = states[index];
+    setCurrentState(newState);
+    setAnswers(getUniqueStates({ currentState: newState, states }));
     setAnswerIndex(Math.floor(Math.random() * answers.length));
   };
 
@@ -53,11 +56,11 @@ export const Gameboard = () => {
   };
 
   useEffect(() => {
-    if (!states.length) {
+    if (!isLoaded) {
       getAllStates();
       getNewState();
     }
-  }, []);
+  }, [isLoaded]);
 
   const handleClick = () => {
     getAllStates();
