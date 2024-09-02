@@ -4,9 +4,10 @@ import { CapitalsContext, UsState } from "../CapitalsProvider";
 import { fetchStates, getUniqueStates } from "../utils";
 import { GameButton } from "../GameButton";
 import { Score } from "../Score";
+import { Timer } from "../Timer";
 
 const Container = styled.div`
-  width: 100%;
+  width: 600px;
   background-color: red;
   border-radius: 5px;
   padding: 4rem;
@@ -17,6 +18,7 @@ const Container = styled.div`
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
   border: 1px solid rgba(255, 255, 255, 0.3);
+  position: relative;
 `;
 
 const AnswerContainer = styled.div`
@@ -89,6 +91,7 @@ export const Gameboard = () => {
               );
             })}
           </AnswerContainer>
+          <Timer key={currentState.capital} getNewState={getNewState} />
         </Container>
       ) : (
         <button onClick={handleClick}>Start</button>
