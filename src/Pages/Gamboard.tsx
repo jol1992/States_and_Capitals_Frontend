@@ -28,11 +28,12 @@ const AnswerContainer = styled.div`
 
 export const Gameboard = () => {
   const { states, setStates } = useContext(CapitalsContext);
+  const [buttonSelected, setButtonSelected] = useState(false);
   const getRandomIndex = () => {
     return Math.floor(Math.random() * states.length);
   };
 
-  const [isLoaded, setIsLoaded] = useState(states.length);
+  const [isLoaded] = useState(states.length);
 
   const [currentState, setCurrentState] = useState<UsState>(
     states[getRandomIndex()]
@@ -82,6 +83,8 @@ export const Gameboard = () => {
                   currentCapital={
                     answerIndex === index ? currentState.capital : item
                   }
+                  answerSelected={buttonSelected}
+                  setAnswerSelected={setButtonSelected}
                 />
               );
             })}
