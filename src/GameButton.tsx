@@ -19,7 +19,37 @@ const StyledButton = styled.button<{ color: string }>`
   cursor: pointer;
   border: none;
   outline: none;
-  ${({ color }) => color && `background-color:${color}`}
+  position: relative;
+  background-color: #f9f9f9;
+  z-index: 0;
+  color: ${({ color }) => (color === "red" ? "white" : "black")};
+  transition: all 2s;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: ${({ color }) => color};
+    animation: slide-in 0.5s forwards;
+    z-index: -1;
+    border-radius: 2px;
+  }
+
+  @keyframes slide-in {
+    0% {
+      left: 50%;
+      right: 50%;
+      color: white;
+    }
+    100% {
+      left: 0;
+      right: 0;
+      color: white;
+    }
+  }
 `;
 
 export const GameButton: FC<ButtonProps> = ({
@@ -49,7 +79,7 @@ export const GameButton: FC<ButtonProps> = ({
       setBackgroundColor("#f9f9f9");
       setAnswerSelected(false);
       getNewState();
-    }, 2000);
+    }, 1000);
 
     return () => clearTimeout(timeout);
   };
@@ -59,6 +89,7 @@ export const GameButton: FC<ButtonProps> = ({
       color={backgroundColor}
       onClick={handleClick}
       disabled={answerSelected}
+      key={`${currentCapital}${backgroundColor}`}
     >
       {currentCapital}
     </StyledButton>
